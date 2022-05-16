@@ -85,6 +85,14 @@
               </div>
             </template>
           </div>
+
+          <div class="row">
+            <div class="col-12 col-sm-6 offset-sm-3 mt-3 text-center">
+              <button class="btn btn-secondary btn-sm" @click="loadMore" x-show="url">
+                Load More
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -99,18 +107,29 @@
       function init() {
         return {
           freelancers: [],
-          fetchFreelancers: function () {
-            fetch("https://maildax.xyz/api/freelancers/filter", {
+          url: "https://maildax.xyz/api/freelancers/filter",
+          fetchFreelancers: function (isForMore = false) {
+            fetch(this.url, {
               headers: {
                 "x-lang": "en",
               },
             })
               .then((res) => res.json())
               .then((res) => {
-                this.freelancers = res.data.freelancers;
-                console.log(this.freelancers[0]);
+                if (!isForMore) {
+                  this.freelancers = res.data.freelancers;
+                } else {
+                  this.freelancers = [
+                    ...this.freelancers,
+                    ...res.data.freelancers,
+                  ];
+                }
+                this.url = res.data.links.next_page_url;
               })
               .catch((err) => console.log(err));
+          },
+          loadMore: function () {
+            this.fetchFreelancers(true);
           },
         };
       }
