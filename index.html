@@ -42,7 +42,9 @@
                   <div class="card-body">
                     <!-- city and country -->
                     <a href="#" class="text-decoration-none text-secondary">
-                      <small x-text="freelancer.location.country + ' ' + freelancer.location.city"></small>
+                      <small
+                        x-text="freelancer.location.country + ' ' + freelancer.location.city"
+                      ></small>
                     </a>
 
                     <p class="pt-3">
@@ -50,17 +52,26 @@
                       Molestiae, sapiente.
                     </p>
 
-
-                    <div class="d-flex justify-content-between align-items-center">
-
-                        <div class="mt-3">
-                            <small class="d-inline-flex mb-3 px-2 py-1 fw-semibold text-success bg-success bg-opacity-10 border border-success border-opacity-10 rounded-2" x-text="freelancer.statistics.count_finished_tasks + ' Tasks'"></small>
-                            <small class="d-inline-flex mb-3 px-2 py-1 fw-semibold text-info bg-info bg-opacity-10 border border-info border-opacity-10 rounded-2" x-text="freelancer.statistics.count_reviews + ' Recommend'"></small>
-                        </div>
-                        <a :href="'https://jobstudio-weba.vercel.app/freelancers/' + freelancer.id" class="btn btn-sm btn-outline-dark float-end"
-                        >More</a>
+                    <div
+                      class="d-flex justify-content-between align-items-center"
+                    >
+                      <div class="mt-3">
+                        <small
+                          class="d-inline-flex mb-3 px-2 py-1 fw-semibold text-success bg-success bg-opacity-10 border border-success border-opacity-10 rounded-2"
+                          x-text="freelancer.statistics.count_finished_tasks + ' Tasks'"
+                        ></small>
+                        <small
+                          class="d-inline-flex mb-3 px-2 py-1 fw-semibold text-info bg-info bg-opacity-10 border border-info border-opacity-10 rounded-2"
+                          x-text="freelancer.statistics.count_reviews + ' Recommend'"
+                        ></small>
+                      </div>
+                      <a
+                        :href="'https://jobstudio-weba.vercel.app/freelancers/' + freelancer.id"
+                        class="btn btn-sm btn-outline-dark float-end"
+                        target="_blank"
+                        >More</a
+                      >
                     </div>
-                    
                   </div>
                 </div>
               </div>
@@ -85,9 +96,7 @@
               .then((res) => res.json())
               .then((res) => {
                 this.freelancers = res.data.freelancers;
-                console.log(
-                    this.freelancers[0]
-                );
+                console.log(this.freelancers[0]);
               })
               .catch((err) => console.log(err));
           },
