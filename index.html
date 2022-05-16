@@ -57,7 +57,7 @@
                             <small class="d-inline-flex mb-3 px-2 py-1 fw-semibold text-success bg-success bg-opacity-10 border border-success border-opacity-10 rounded-2" x-text="freelancer.statistics.count_finished_tasks + ' Tasks'"></small>
                             <small class="d-inline-flex mb-3 px-2 py-1 fw-semibold text-info bg-info bg-opacity-10 border border-info border-opacity-10 rounded-2" x-text="freelancer.statistics.count_reviews + ' Recommend'"></small>
                         </div>
-                        <a href="#" class="btn btn-sm btn-outline-dark float-end"
+                        <a :href="'https://jobstudio-weba.vercel.app/freelancers/' + freelancer.id" class="btn btn-sm btn-outline-dark float-end"
                         >More</a>
                     </div>
                     
