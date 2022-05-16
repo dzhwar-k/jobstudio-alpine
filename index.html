@@ -37,7 +37,16 @@
                         lazyload
                       />
                     </div>
-                    <h5 x-text="freelancer.name"></h5>
+
+                    <div>
+                      <a
+                        :href="'https://jobstudio-weba.vercel.app/freelancers/' + freelancer.id"
+                        class="text-decoration-none text-dark"
+                        target="_blank"
+                      >
+                        <h5 x-text="freelancer.name"></h5>
+                      </a>
+                    </div>
                   </div>
                   <div class="card-body">
                     <!-- city and country -->
@@ -93,9 +102,9 @@
           freelancers: [],
           fetchFreelancers: function () {
             fetch("https://maildax.xyz/api/freelancers/filter", {
-                headers: {
-                    'x-lang': 'en',
-                }
+              headers: {
+                "x-lang": "en",
+              },
             })
               .then((res) => res.json())
               .then((res) => {
