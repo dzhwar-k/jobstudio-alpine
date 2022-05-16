@@ -43,7 +43,7 @@
                     <!-- city and country -->
                     <a href="#" class="text-decoration-none text-secondary">
                       <small
-                        x-text="freelancer.location.country + ' ' + freelancer.location.city"
+                        x-text="freelancer.location.country + ' - ' + freelancer.location.city"
                       ></small>
                     </a>
 
@@ -92,7 +92,11 @@
         return {
           freelancers: [],
           fetchFreelancers: function () {
-            fetch("https://maildax.xyz/api/freelancers/filter")
+            fetch("https://maildax.xyz/api/freelancers/filter", {
+                headers: {
+                    'x-lang': 'en',
+                }
+            })
               .then((res) => res.json())
               .then((res) => {
                 this.freelancers = res.data.freelancers;
