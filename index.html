@@ -22,7 +22,7 @@
           <h3>Candidates</h3>
         </div>
 
-        <div class="card-body" x-data="init()" x-init="fetchFreelancers">
+        <div class="card-body" x-data="init()" x-init="getFreelancers">
           <div class="row">
             <template x-for="freelancer in freelancers">
               <div class="col-12 col-sm-6 col-md-4 mt-3">
@@ -49,16 +49,16 @@
                   </div>
                   <div class="card-body">
                     <!-- city and country -->
-                    <div class="d-flex justify-content-between align-items-center">
+                    <div
+                      class="d-flex justify-content-between align-items-center"
+                    >
                       <a href="#" class="text-decoration-none text-secondary">
                         <small
                           x-text="freelancer.location.country + ' - ' + freelancer.location.city"
                         ></small>
                       </a>
                       <a href="#" class="text-decoration-none text-secondary">
-                        <small
-                          x-text="freelancer.category.title"
-                        ></small>
+                        <small x-text="freelancer.category.title"></small>
                       </a>
                     </div>
 
@@ -95,7 +95,11 @@
 
           <div class="row">
             <div class="col-12 col-sm-6 offset-sm-3 mt-3 text-center">
-              <button class="btn btn-secondary btn-sm" @click="loadMore" x-show="url">
+              <button
+                class="btn btn-secondary btn-sm"
+                @click="loadMore"
+                x-show="hasMore"
+              >
                 Load More
               </button>
             </div>
@@ -114,8 +118,9 @@
       function init() {
         return {
           freelancers: [],
+          hasMore: true,
           url: "https://maildax.xyz/api/freelancers/filter",
-          fetchFreelancers: function (isForMore = false) {
+          fetchFreelancers: function () {
             fetch(this.url, {
               headers: {
                 "x-lang": "en",
@@ -123,20 +128,31 @@
             })
               .then((res) => res.json())
               .then((res) => {
-                if (!isForMore) {
-                  this.freelancers = res.data.freelancers;
-                } else {
-                  this.freelancers = [
-                    ...this.freelancers,
-                    ...res.data.freelancers,
-                  ];
-                }
+                this.freelancers = this.freelancers.concat(
+                  res.data.freelancers
+                );
                 this.url = res.data.links.next_page_url;
+                sessionStorage.setItem(
+                  "freelancers",
+                  JSON.stringify(this.freelancers)
+                );
+                sessionStorage.setItem("hasMore", !!this.url);
+                this.hasMore = !!this.url;
               })
               .catch((err) => console.log(err));
           },
           loadMore: function () {
-            this.fetchFreelancers(true);
+            this.fetchFreelancers();
+          },
+          get getFreelancers() {
+            if (sessionStorage.getItem("freelancers")) {
+              this.freelancers = JSON.parse(
+                sessionStorage.getItem("freelancers")
+              );
+              this.hasMore = sessionStorage.getItem("hasMore") === "true";
+            } else {
+              this.fetchFreelancers();
+            }
           },
         };
       }
